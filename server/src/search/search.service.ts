@@ -65,8 +65,16 @@ export class SearchService{
                 }
             })
 
+            let result: Array<IFile> = [];
             // проверяем, есть ли в файле match
-            const result = checkMatch(fileNames, searchedString)
+            fileNames.forEach(file => {
+                const {check, matchedWords} = checkMatch(searchedString, file.text)
+                if (check){
+                    file.words = matchedWords
+                    result.push(file)
+                }
+            })
+            
             
             return result;
         } catch (error) {

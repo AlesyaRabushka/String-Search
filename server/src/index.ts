@@ -1,4 +1,5 @@
 import express from "express";
+import { searchRouter } from "./search/search.router";
 
 const PORT = Number(process.env.PORT) || 3004;
 
@@ -11,6 +12,9 @@ function bootstrap(){
             extended:true,
         }))
 
+
+        app.use('/search', searchRouter)
+
         app.listen(PORT, () => {
             console.log(`[SERVER STARTED] server listen to http://localhost:${PORT}`)
         })
@@ -22,3 +26,7 @@ function bootstrap(){
 }
 
 bootstrap();
+
+
+
+// get('кфе', 'Мама очень любит кофе, поэтому я тоже его люблю!')
