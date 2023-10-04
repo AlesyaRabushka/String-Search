@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { SearchService, searchService } from "./search.service";
 
-const DIRECTORY = '/home/aleksa'
+const DIRECTORY = String(process.env.DIRECTORY)
 
 export class SearchController{
     constructor(private readonly searchService: SearchService){};

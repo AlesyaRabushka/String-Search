@@ -37,28 +37,30 @@ import {fuzzyFilter, fuzzyMatch} from "fuzzbunny";
 // }
 
 
-function levenshtein(s1: string, s2: string): number {
-    let i, j, l1, l2, flip, ch, chl, ii, ii2, cost, cutHalf;
-    l1 = s1.length;
-    l2 = s2.length;
+function levenshtein(searchedString: string, text: string): number {
+    let i, j, stringLength, textLength, flip, ch, chl, ii, ii2, cost, cutHalf;
+
+    stringLength = searchedString.length;
+    textLength = text.length;
+    
     let cr: number = 1;
     let cri: number =1;
     let ci: number = 1;
     let cd: number = 1;
 
-    cutHalf = flip = Math.max(l1, l2);
+    cutHalf = flip = Math.max(stringLength, textLength);
 
     let minCost = Math.min(cd, ci, cr);
-    let minD = Math.max(minCost, (l1 - l2) * cd);
-    let minI = Math.max(minCost, (l2 - l1) * ci);
+    let minD = Math.max(minCost, (stringLength - textLength) * cd);
+    let minI = Math.max(minCost, (textLength - stringLength) * ci);
     let buf = new Array((cutHalf * 2) - 1);
 
-    for (i = 0; i <= l2; ++i) {
+    for (i = 0; i <= textLength; ++i) {
         buf[i] = i * minD;
     }
 
-    for (i = 0; i < l1; ++i, flip = cutHalf - flip) {
-        ch = s1[i];
+    for (i = 0; i < stringLength; ++i, flip = cutHalf - flip) {
+        ch = searchedString[i];
         chl = ch.toLowerCase();
 
         buf[flip] = (i + 1) * minI;
@@ -66,12 +68,12 @@ function levenshtein(s1: string, s2: string): number {
         ii = flip;
         ii2 = cutHalf - flip;
 
-        for (j = 0; j < l2; ++j, ++ii, ++ii2) {
-            cost = (ch === s2[j] ? 0 : (chl === s2[j].toLowerCase()) ? cri : cr);
+        for (j = 0; j < textLength; ++j, ++ii, ++ii2) {
+            cost = (ch === text[j] ? 0 : (chl === text[j].toLowerCase()) ? cri : cr);
             buf[ii + 1] = Math.min(buf[ii2 + 1] + cd, buf[ii] + ci, buf[ii2] + cost);
         }
     }
-    return buf[l2 + cutHalf - flip];
+    return buf[textLength + cutHalf - flip];
 }
 
 
