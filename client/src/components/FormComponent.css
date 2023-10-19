@@ -102,6 +102,8 @@
 .item-words{
     padding-left: calc(2%);
     padding-right: calc(2%);
+
+    margin-bottom: calc(2%);
 }
 
 .item-text{
@@ -110,4 +112,22 @@
 
     margin-top: calc(2%);
     margin-bottom: calc(2%);
+}
+
+.show-text-button{
+    height: 30px;
+    margin-top: calc(1%);
+
+
+    font-size: 1.0em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    
+}
+
+.show-text-button:hover{
+    color: rgb(242, 217, 245);
+    cursor: pointer;
+
+    text-decoration: underline;
 }

@@ -9,6 +9,8 @@ export const FormComponent:FC = () => {
     const [value, setValue] = useState('');
     const [spinner, setSpinner] = useState(false);
     const [files, setFiles] = useState<any>([]);
+    const [found, setFound] = useState(false)
+    const [showText, setShowText] = useState(false)
 
     const inputKey = (e:any) => {
         if (e.key == 'Enter'){
@@ -23,7 +25,7 @@ export const FormComponent:FC = () => {
         if (result){
             const resultFiles = await chooseWords(result);
             setFiles(resultFiles)
-
+            setFound(true)
         }
         setSpinner(false);
     }
@@ -43,8 +45,19 @@ export const FormComponent:FC = () => {
                     <>
                         {files ? 
                             <>
-                                <label className="label">Количество обнаруженных файлов: {files.length}</label>
-                                <div className="files-content">
+                                { found &&
+                                    <>
+                                        <label className="label">Количество обнаруженных файлов: {files.length}</label>
+                                        {/* <button className="show-text-button" type="button" onClick={e => setShowText(!showText)}> */}
+                                            {showText ? 
+                                                <label className="show-text-button" onClick={e => setShowText(!showText)}>Скрыть текст файлов</label> 
+                                                : 
+                                                <label className="show-text-button" onClick={e => setShowText(!showText)}>Показать текст файлов</label>}
+                                        {/* </button> */}
+                                    </>
+                                }
+
+                                    <div className="files-content">
                                     {files.map((item:any) => 
                                         <div className="item">
                                             <div className="item-name">
@@ -53,12 +66,17 @@ export const FormComponent:FC = () => {
                                             <div className="item-words">
                                                 Похожие слова: {item.words}
                                             </div>
-                                            <div className="item-text">
-                                                {item.text}
-                                            </div>
+                                            {showText &&
+                                                <div className="item-text">
+                                                    {item.text}
+                                                </div>
+                                            }
+                                            
                                         </div>
                                     )}
                                 </div>
+                                                
+                                
                             </>
                             : 
                             <>
