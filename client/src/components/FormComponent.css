@@ -8,6 +8,7 @@
     align-items: center;
     text-align: center;
     
+    margin-bottom: calc(2%);
 }
 
 .input-form{
@@ -46,6 +47,21 @@
     width: calc(50%);
 
     margin-top: calc(2%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spinner{
+    margin-top: calc(5%);
+}
+
+.label{
+    font-size: 1.2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    color: white;
 }
 
 .files-content{
@@ -69,7 +85,7 @@
     border-radius: 10px;
     border: 3px solid rgb(119, 23, 221);
 
-    background-color: aliceblue;
+    background-color: rgb(242, 240, 243);
     /* background: transparent;
     backdrop-filter: blur(15px); */
 
@@ -77,9 +93,21 @@
 
 .item-name{
     font-size: 1.7em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     margin-top: calc(1%);
     margin-bottom: calc(1%);
+}
 
-    
+.item-words{
+    padding-left: calc(2%);
+    padding-right: calc(2%);
+}
+
+.item-text{
+    padding-left: calc(2%);
+    padding-right: calc(2%);
+
+    margin-top: calc(2%);
+    margin-bottom: calc(2%);
 }

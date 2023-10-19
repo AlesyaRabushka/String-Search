@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react"
 import "./FormComponent.css"
 import Service from "../service/service";
 import {ClimbingBoxLoader} from "react-spinners"
+import {chooseWords} from "../helpers/helpers"
 
 export const FormComponent:FC = () => {
 
@@ -19,7 +20,11 @@ export const FormComponent:FC = () => {
         console.log(value)
         setSpinner(true);
         const result = await Service.getFiles(value);
-        setFiles(result);
+        if (result){
+            const resultFiles = await chooseWords(result);
+            setFiles(resultFiles)
+
+        }
         setSpinner(false);
     }
 
@@ -33,21 +38,28 @@ export const FormComponent:FC = () => {
                 {spinner ? 
                     <div className="spinner">
                         <ClimbingBoxLoader size={30} color="rgb(96, 11, 129)"/>
-                    </div> : 
+                    </div> 
+                    : 
                     <>
                         {files ? 
-                            <div className="files-content">
-                                {files.map((item:any) => 
-                                    <div className="item">
-                                        <div className="item-name">
-                                            {item.name}
+                            <>
+                                <label className="label">Количество обнаруженных файлов: {files.length}</label>
+                                <div className="files-content">
+                                    {files.map((item:any) => 
+                                        <div className="item">
+                                            <div className="item-name">
+                                                {item.name}
+                                            </div>
+                                            <div className="item-words">
+                                                Похожие слова: {item.words}
+                                            </div>
+                                            <div className="item-text">
+                                                {item.text}
+                                            </div>
                                         </div>
-                                        <div className="item-words">
-                                            {item.words}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            </>
                             : 
                             <>
                                 
