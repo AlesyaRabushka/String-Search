@@ -124,7 +124,7 @@ const checkMatch = (searchedString:string, text:string) => {
                 // const res = levenshtein(splittedString[i], splittedText[j])
                 const res = levenshteinDistance(splittedString[i], splittedText[j])
     
-                if (res <= 2){
+                if (res < 2){
                     matchedWords.push(splittedText[j]);
                 }
             }
