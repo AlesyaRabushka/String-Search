@@ -9,13 +9,22 @@ export const FormComponent:FC = () => {
     const [value, setValue] = useState('');
     const [spinner, setSpinner] = useState(false);
     const [files, setFiles] = useState<any>([]);
-    const [found, setFound] = useState(false)
-    const [showText, setShowText] = useState(false)
+    const [found, setFound] = useState(false);
+    const [showText, setShowText] = useState(false);
+    const [pressed, setPressed] = useState(false);
 
     const inputKey = (e:any) => {
         if (e.key == 'Enter'){
+            setPressed(true);
             onSubmit(e);
         }
+    }
+
+    const handleChange = (e: any) => {
+        if (e.target.value != ''){
+            setValue(e.target.value);
+
+        } else setPressed(false)
     }
 
     const onSubmit = async (e:any) => {
@@ -33,8 +42,8 @@ export const FormComponent:FC = () => {
     return (
         <div className="form-component">
             <div className="input-form">
-                <input type="text" name="input-field" className="text-input" placeholder="Введите слово или выражение" onKeyDown={inputKey} onChange={e => setValue(e.target.value)}/>
-               
+                <input type="text" name="input-field" className="text-input" placeholder="Введите слово или выражение" onKeyDown={inputKey} onChange={handleChange}/>
+                {!pressed && <label className="impulse-text">press ENTER to continue</label>}
             </div>
             <div className="results">
                 {spinner ? 

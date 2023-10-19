@@ -43,6 +43,34 @@
     padding-left: calc(2%);
 }
 
+.impulse-text{
+    margin-top: calc(1%);
+    
+    color: white;
+
+    transform: scale(1);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		/* transform: scale(0.98); */
+        color: white;
+		/* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7); */
+	}
+    70% {
+        color: rgb(202, 164, 238);
+		/* transform: scale(1); */
+		/* box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); */
+	}
+
+	100% {
+        color: white;
+		/* transform: scale(0.95); */
+		/* box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); */
+	}
+}   
+
 .results{
     width: calc(50%);
 
@@ -66,11 +94,6 @@
 
 .files-content{
     width: calc(100%);
-
-    
-    /* box-shadow: 0px 5px rgb(119, 23, 221); */
-
-    /* background-color: rgb(39, 100, 153); */
 
     overflow: auto;
 }
