@@ -21,10 +21,8 @@ export const FormComponent:FC = () => {
     }
 
     const handleChange = (e: any) => {
-        if (e.target.value != ''){
             setValue(e.target.value);
-
-        } else setPressed(false)
+            setPressed(false);
     }
 
     const onSubmit = async (e:any) => {
