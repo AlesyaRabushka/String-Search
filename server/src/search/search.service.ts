@@ -83,6 +83,7 @@ export class SearchService{
             // })
 
             let result: Array<IFile> = [];
+            console.log(files.length)
             // console.log('here', fileNames)
             // проверяем, есть ли в файле match
             files.forEach(file => {

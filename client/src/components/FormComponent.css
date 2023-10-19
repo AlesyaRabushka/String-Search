@@ -1,15 +1,17 @@
 .form-component{
+    width: calc(70%);
+
     min-height: 100vh;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    background: linear-gradient(rgb(196, 102, 204), rgb(165, 113, 216));
+    text-align: center;
+    
 }
 
 .input-form{
-    width: calc(45%);
+    width: calc(70%);
     /* min-height: 200px; */
 
     display: flex;
@@ -38,4 +40,46 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 
     padding-left: calc(2%);
+}
+
+.results{
+    width: calc(50%);
+
+    margin-top: calc(2%);
+}
+
+.files-content{
+    width: calc(100%);
+
+    
+    /* box-shadow: 0px 5px rgb(119, 23, 221); */
+
+    /* background-color: rgb(39, 100, 153); */
+
+    overflow: auto;
+}
+
+.item{
+    text-align: left;
+
+    padding-left: calc(2%);
+
+    margin-top: calc(2%);
+
+    border-radius: 10px;
+    border: 3px solid rgb(119, 23, 221);
+
+    background-color: aliceblue;
+    /* background: transparent;
+    backdrop-filter: blur(15px); */
+
+}
+
+.item-name{
+    font-size: 1.7em;
+
+    margin-top: calc(1%);
+    margin-bottom: calc(1%);
+
+    
 }
