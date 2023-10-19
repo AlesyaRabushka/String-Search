@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import checkStringMatch from '../algorithm/algorithm';
 import { IFile } from '../types/types';
 import checkMatch from '../algorithm/algorithm';
@@ -11,22 +12,32 @@ export class SearchService{
 
     async getAllSystemFiles(directory:string){
         try {
-            const fileNames: string[] = [];
+            const fileNames: Array<IFile> = [];
 
             const files = fs.readdirSync(directory);
 
             files.forEach((file) => {
-                // только txt рассматривает?
-                if (file.endsWith('txt')){
-                    const filePath = `${directory}/${file}`;
+                if (!file.startsWith(".")){
+                    const filePath = path.join(directory, file);
                     const status = fs.statSync(filePath);
-
+    
                     if (status.isFile()){
-                        fileNames.push(file);
+                        // только txt рассматривает?
+                        if (path.extname(filePath) === ".txt"){
+                            const data = fs.readFileSync(filePath, 'utf-8');
+                            // добавляем в массив объект файла
+                            // console.log(filePath)
+                            const fileInfo = {
+                                name: file,
+                                text: data,
+                            }
+                            fileNames.push(fileInfo)
+                        }
                     } else if (status.isDirectory()){
-                        const subFileNames = this.getAllSystemFiles(filePath)
+                        this.getAllSystemFiles(filePath).then(result => fileNames.push(...result))
                     }
                 }
+                
             })
             
             return fileNames;
@@ -39,35 +50,42 @@ export class SearchService{
 
     async getFilesWithString(directory:string, searchedString: string){
         try {
-            const fileNames: Array<IFile> = [];
+            
 
-            const files = fs.readdirSync(directory);
+            const files = await this.getAllSystemFiles(directory);
+            // console.log(files)
+            // console.log(files)
 
-            files.forEach((file) => {
-                // только txt рассматривает
-                if (file.endsWith('txt')){
-                    const filePath = `${directory}/${file}`;
-                    const status = fs.statSync(filePath);
+            // files.forEach((file) => {
+                // const filePath = path.join(directory, file)
+            //     const status = fs.statSync(filePath);
+            //     // только txt рассматривает
+            //     if (status.isFile()){
+            //         // console.log('file')
+                    
+            //         if (path.extname(filePath) === ".txt"){
+            //             const data = fs.readFileSync(filePath, 'utf-8');
+            //             // добавляем в массив объект файла
+            //             console.log(filePath)
+            //             const fileInfo = {
+            //                 name: file,
+            //                 text: data,
+            //             }
+            //             fileNames.push(fileInfo)
+            //         }
 
-                    if (status.isFile()){
-                        const data = fs.readFileSync(filePath, 'utf-8');
-
-                        // добавляем в массив объект файла
-                        const fileInfo = {
-                            name: file,
-                            text: data,
-                        }
-                        fileNames.push(fileInfo)
-
-                    } else if (status.isDirectory()){
-                        const subFileNames = this.getAllSystemFiles(filePath);
-                    }
-                }
-            })
+            //     } else if (status.isDirectory()){
+            //         // console.log('dir')
+            //         // const subFileNames = this.getAllSystemFiles(filePath);
+            //         // return subFileNames;
+            //     }
+                
+            // })
 
             let result: Array<IFile> = [];
+            // console.log('here', fileNames)
             // проверяем, есть ли в файле match
-            fileNames.forEach(file => {
+            files.forEach(file => {
                 const {check, matchedWords} = checkMatch(searchedString, file.text)
                 if (check){
                     file.words = matchedWords

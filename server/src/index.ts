@@ -2,6 +2,7 @@ import { config } from "dotenv";
 config();
 import express from "express";
 import { searchRouter } from "./search/search.router";
+import cors from "cors";
 
 const PORT = Number(process.env.PORT) || 3004;
 
@@ -12,7 +13,8 @@ function bootstrap(){
         app.use(express.json());
         app.use(express.urlencoded({
             extended:true,
-        }))
+        }));
+        app.use(cors());
 
 
         app.use('/search', searchRouter)

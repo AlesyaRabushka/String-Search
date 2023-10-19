@@ -23,7 +23,7 @@ export class SearchController{
             const {searchedString} = request.body;
             console.log(DIRECTORY)
             const result = await this.searchService.getFilesWithString(DIRECTORY, searchedString);
-
+            console.log(result);
             response.status(201).json(result);
         } catch (error) {
             console.log('[SearchController error] ', error);
