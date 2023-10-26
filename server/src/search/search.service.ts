@@ -22,7 +22,7 @@ export class SearchService{
                     const status = fs.statSync(filePath);
     
                     if (status.isFile()){
-                        // только txt рассматривает?
+                        // только txt рассматривает
                         if (path.extname(filePath) === ".txt"){
                             const data = fs.readFileSync(filePath, 'utf-8');
                             // добавляем в массив объект файла
@@ -53,41 +53,14 @@ export class SearchService{
             
 
             const files = await this.getAllSystemFiles(directory);
-            // console.log(files)
-            // console.log(files)
-
-            // files.forEach((file) => {
-                // const filePath = path.join(directory, file)
-            //     const status = fs.statSync(filePath);
-            //     // только txt рассматривает
-            //     if (status.isFile()){
-            //         // console.log('file')
-                    
-            //         if (path.extname(filePath) === ".txt"){
-            //             const data = fs.readFileSync(filePath, 'utf-8');
-            //             // добавляем в массив объект файла
-            //             console.log(filePath)
-            //             const fileInfo = {
-            //                 name: file,
-            //                 text: data,
-            //             }
-            //             fileNames.push(fileInfo)
-            //         }
-
-            //     } else if (status.isDirectory()){
-            //         // console.log('dir')
-            //         // const subFileNames = this.getAllSystemFiles(filePath);
-            //         // return subFileNames;
-            //     }
-                
-            // })
-
             let result: Array<IFile> = [];
             console.log(files.length)
-            // console.log('here', fileNames)
+            
             // проверяем, есть ли в файле match
             files.forEach(file => {
-                const {check, matchedWords} = checkMatch(searchedString, file.text)
+                const {check, matchedWords} = checkMatch(searchedString, file.text);
+                // const checkName = checkMatch(searchedString, file.name);
+
                 if (check){
                     file.words = matchedWords
                     result.push(file)
