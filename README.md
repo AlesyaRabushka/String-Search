@@ -1,6 +1,9 @@
 # String-Search
 Web app to find all txt files located on the user's computer by the given word or phrase
 
+# Before start
+Be sure that you've install all dependencies and fill the env files
+
 # How does it work?
 WHen you start the project there is a searchbar
 
