@@ -18,26 +18,15 @@ export const FormComponent:FC = () => {
     const [placeholder, setPlaceholder] = useState("Start typing...");
 
 
-    const arr = ['lala', 'mama', 'papa'];
+    const arr = ['У мамы есть кошка, а у кошки мышка, а у мышки зернышко, а у зернышка наверняка что-то тоже было.', 
+                'И по утрам его вкусный омлет', 
+                'Она любила жить без проблем',
+                'Люблю кофе'];
+
     const [typing, setTyping] = useState(false);
 
     const activeRef = useRef<HTMLInputElement | null>(null);
 
-    const keyPressEvent = (e:any) => {
-        console.log('dkd')
-        if (e.keyCode == 13){
-            console.log('here')
-            setPressed(true);
-            setShowText(false);
-            onSubmit(e);
-        }
-    }
-
-    useEffect(() => {
-        if (activeRef.current){
-            activeRef.current.addEventListener("keydown", keyPressEvent);
-        }
-    })
 
     
     
@@ -53,7 +42,11 @@ export const FormComponent:FC = () => {
 
     const handleChange = (e: any) => {
             setValue(e.target.value);
-            setTyping(true)
+            if (e.target.value == ''){
+                setTyping(false)
+            } else {
+                setTyping(true)
+            }
             setPressed(false);
     }
 
@@ -86,7 +79,14 @@ export const FormComponent:FC = () => {
                     {typing && 
                         <>
                             <div className="search-bar-results">
-                                {arr.map(item => 
+                                {arr
+                                .filter((item) => {
+                                    const searchedItem = value.toLocaleLowerCase();
+                                    const itemName = item.toLocaleLowerCase();
+
+                                    return itemName.includes(searchedItem)
+                                })
+                                .map(item => 
                                     <div className="search-bar-results-item" tabIndex={0} ref={activeRef} onClick={e => setValue(item)} onKeyDown={e => {
                                         inputKey(e)
                                     }}>
