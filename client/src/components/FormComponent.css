@@ -85,6 +85,10 @@
     animation: pulse 1s infinite;
 }
 
+mark {
+    background-color: rgb(215, 188, 245);
+}
+
 @keyframes pulse {
 	0% {
 		/* transform: scale(0.98); */

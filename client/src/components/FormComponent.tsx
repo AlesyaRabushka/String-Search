@@ -28,8 +28,10 @@ export const FormComponent:FC = () => {
     const activeRef = useRef<HTMLInputElement | null>(null);
 
 
-    
-    
+    const highlight = (text:string, word: string) => {
+        const reg = new RegExp(word, 'gi');
+        return text.replace(reg, (match) => `<mark>${match}</mark>`)
+    }
 
 
     const inputKey = (e:any) => {
@@ -42,6 +44,10 @@ export const FormComponent:FC = () => {
 
     const handleChange = (e: any) => {
             setValue(e.target.value);
+            let textToSearch = document.getElementById('text-to-search')?.nodeValue;
+            console.log('text to search',textToSearch)
+
+
             if (e.target.value == ''){
                 setTyping(false)
             } else {
@@ -66,8 +72,8 @@ export const FormComponent:FC = () => {
     return (
         <div className="form-component">
             <div className="input-form">
-                <input type="text" name="input-field" className="text-input" placeholder={placeholder} value={value} onKeyDown={inputKey} onChange={handleChange}/>
-                
+                <input type="text" id="text-to-search" name="input-field" className="text-input" placeholder={placeholder} value={value} onKeyDown={inputKey} onChange={handleChange}/>
+               
             </div>
             <div className="results">
                 {spinner ? 
@@ -80,17 +86,17 @@ export const FormComponent:FC = () => {
                         <>
                             <div className="search-bar-results">
                                 {arr
-                                .filter((item) => {
+                                .filter((item1) => {
                                     const searchedItem = value.toLocaleLowerCase();
-                                    const itemName = item.toLocaleLowerCase();
+                                    const itemName = item1.toLocaleLowerCase();
 
                                     return itemName.includes(searchedItem)
                                 })
-                                .map(item => 
+                                .map((item:string) => 
                                     <div className="search-bar-results-item" tabIndex={0} ref={activeRef} onClick={e => setValue(item)} onKeyDown={e => {
                                         inputKey(e)
-                                    }}>
-                                        {item}
+                                    }} dangerouslySetInnerHTML={{__html: highlight(item, value)}}>
+                                        {/* {item} */}
                                     </div>
                                 )}
                             </div>
@@ -135,7 +141,7 @@ export const FormComponent:FC = () => {
                             </>
                             : 
                             <>
-                                
+                            
                             </>
                         }
                     </>
