@@ -13,6 +13,19 @@ export class Service{
             throw error;
         }
     }
+
+    static async getSearchBarSuggestion(){
+        try {
+            const result = await $host.get('search/suggestions');
+            console.log(result.data)
+
+            return result.data
+        } catch (error) {
+            console.log('[SearchService error] ', error);
+
+            throw error;
+        }
+    }
 }
 
 export default Service;

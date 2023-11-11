@@ -22,6 +22,7 @@ export class SearchService{
                     const status = fs.statSync(filePath);
     
                     if (status.isFile()){
+                        // console.log('file')
                         // только txt рассматривает
                         if (path.extname(filePath) === ".txt"){
                             const data = fs.readFileSync(filePath, 'utf-8');
@@ -34,6 +35,7 @@ export class SearchService{
                             fileNames.push(fileInfo)
                         }
                     } else if (status.isDirectory()){
+                        // console.log('dir')
                         this.getAllSystemFiles(filePath).then(result => fileNames.push(...result))
                     }
                 }
@@ -75,6 +77,40 @@ export class SearchService{
             throw error;
         }
     }
+
+    async getSearchBarSuggestions(){
+        try {
+            console.log('here')
+            const files = await this.getAllSystemFiles(String(process.env.DIRECTORY))
+
+            let splitted:Array<string> = []
+            for (let i = 0; i < files.length; i++){
+                const spl = files[0].text.split('.')
+                for (let j = 0; j < spl.length; j++){
+                    splitted.push(spl[j])
+                }
+            }
+
+            // for (let i = 0; i < splitted.length; i++){
+            //     const phrase = splitted[i];
+                
+            //     const filtered = splitted.filter((value:string, index:number) => words.indexOf(value) == index);
+            //     resultObject[i].words = filtered.toString();
+                
+            // }
+
+            const filtered = splitted.filter((value:string, index:number) => splitted.indexOf(value) == index);
+
+            
+            console.log(filtered)
+            return filtered
+        } catch (error) {
+            console.log('[SearchService error] ', error);
+
+            throw error;
+        }
+    }
+
 }
 
 export const searchService = new SearchService;

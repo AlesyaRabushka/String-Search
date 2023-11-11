@@ -31,6 +31,17 @@ export class SearchController{
             throw error;
         }
     }
+
+    async getSearchBarSuggestions(request:Request, response:Response){
+        try {
+            const result = await this.searchService.getSearchBarSuggestions();
+            response.status(200).json(result);
+        } catch (error) {
+            console.log('[SearchController error] ', error);
+
+            throw error;
+        }
+    }
 }
 
 export const searchController = new SearchController(searchService);

@@ -17,6 +17,16 @@ export const FormComponent:FC = () => {
 
     const [placeholder, setPlaceholder] = useState("Start typing...");
 
+    const [searchBarSuggestion, setSearchBarSuggestion] = useState([]);
+    const [getSuggestions, setGetSuggestions] = useState(false)
+
+    useEffect(() => {
+        const result = Service.getSearchBarSuggestion().then(data => setSearchBarSuggestion(data))
+        console.log(result)
+        if (searchBarSuggestion.length != 0){
+            setGetSuggestions(true)
+        }
+    }, [])
 
     const arr = ['У мамы есть кошка, а у кошки мышка, а у мышки зернышко, а у зернышка наверняка что-то тоже было.', 
                 'И по утрам его вкусный омлет', 
@@ -82,13 +92,14 @@ export const FormComponent:FC = () => {
                     </div> 
                     : 
                     <>
-                    {typing && 
+                    {(typing) && 
                         <>
                             <div className="search-bar-results">
-                                {arr
+                                {searchBarSuggestion
                                 .filter((item1) => {
                                     const searchedItem = value.toLocaleLowerCase();
-                                    const itemName = item1.toLocaleLowerCase();
+                                    const itemName = String(item1).toLocaleLowerCase();
+                                    console.log(searchedItem)
 
                                     return itemName.includes(searchedItem)
                                 })
