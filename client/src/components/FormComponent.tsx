@@ -131,7 +131,7 @@ export const FormComponent:FC = () => {
 
                                     <div className="files-content">
                                     {files.map((item:any) => 
-                                        <div className="item">
+                                        <div className="item" >
                                             <div className="item-name">
                                                 {item.name}
                                             </div>
@@ -139,9 +139,9 @@ export const FormComponent:FC = () => {
                                                 Found words: {item.words}
                                             </div>
                                             {showText &&
-                                                <div className="item-text">
-                                                    {item.text}
-                                                </div>
+                                                <div className="item-text" dangerouslySetInnerHTML={{__html:item.text}}/>
+                                                //     {item.text}
+                                                // </div>
                                             }
                                             
                                         </div>

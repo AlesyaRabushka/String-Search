@@ -6,4 +6,8 @@ const $host = axios.create({
    
 })
 
-export default $host;
+const $hostPy = axios.create({
+    baseURL: process.env.REACT_APP_API_PYTHON_URL,
+})
+
+export default {$host, $hostPy};

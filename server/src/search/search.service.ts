@@ -5,7 +5,7 @@ import { IFile } from '../types/types';
 import checkMatch from '../algorithm/algorithm';
 
 
-
+let STRINGS:Array<any> = [];
 
 export class SearchService{
     constructor(){};
@@ -55,21 +55,54 @@ export class SearchService{
             
 
             const files = await this.getAllSystemFiles(directory);
-            let result: Array<IFile> = [];
-            console.log(files.length)
-            
-            // проверяем, есть ли в файле match
-            files.forEach(file => {
-                const {check, matchedWords} = checkMatch(searchedString, file.text);
-                // const checkName = checkMatch(searchedString, file.name);
+            let result: Array<any> = [];
+            let usedFiles:Array<string> = [];
 
-                if (check){
-                    file.words = matchedWords
-                    result.push(file)
-                }
-            })
+            console.log(files.length)
+            if (searchedString.includes(' ')){
+                // console.log('STRINGS', STRINGS)
+                // console.log(searchedString.length)
+                STRINGS.forEach(fileInfo => {
+                    if (fileInfo[1].includes(`${searchedString}`)){
+                        const wordsArr: Array<string> = []
+                        wordsArr.push(searchedString)
+                        let markedText = ''
+                        if (fileInfo[2].includes(searchedString)){
+                            console.log('HERE IS IT')
+                            markedText = fileInfo[2].replace(searchedString, `<mark>${searchedString}</mark>`)
+                            console.log(markedText)
+                        }
+                        let text = fileInfo[2];
+                        if (markedText.length > 0){
+                            text = markedText;
+                        }
+                        const obj = {
+                            name: fileInfo[0],
+                            text: text,
+                            words : wordsArr,
+                        }
+                        if (!usedFiles.includes(obj.name)){
+                            usedFiles.push(obj.name)
+                            result.push(obj)
+                        }
+
+                    }
+                })
+            } else {
+
+                files.forEach(file => {
+                    const {check, matchedWords} = checkMatch(searchedString, file.text);
+                    // const checkName = checkMatch(searchedString, file.name);
+    
+                    if (check){
+                        file.words = matchedWords
+                        result.push(file)
+                    }
+                })
+            }
+            // проверяем, есть ли в файле match
             
-            
+            console.log(result)
             return result;
         } catch (error) {
             console.log('[SearchService error] ', error);
@@ -82,13 +115,22 @@ export class SearchService{
         try {
             console.log('here')
             const files = await this.getAllSystemFiles(String(process.env.DIRECTORY))
-
+            // console.log(files)
             let splitted:Array<string> = []
             for (let i = 0; i < files.length; i++){
-                const spl = files[0].text.split('.')
+                const spl = files[i].text.split('.')
+                let strings:Array<string> = [];
                 for (let j = 0; j < spl.length; j++){
                     splitted.push(spl[j])
+                    strings.push(spl[j])
                 }
+                const fileInfo = [
+                    files[i].name,
+                    strings,
+                    files[i].text
+                ]
+                
+                STRINGS.push(fileInfo)
             }
 
             // for (let i = 0; i < splitted.length; i++){
@@ -100,7 +142,7 @@ export class SearchService{
             // }
 
             const filtered = splitted.filter((value:string, index:number) => splitted.indexOf(value) == index);
-
+            // console.log('filtered', filtered)
             
             console.log(filtered)
             return filtered
